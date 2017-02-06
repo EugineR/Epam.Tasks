@@ -28,7 +28,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "UPDATE dbo.[User] SET Image_ID=@imageID WHERE ID=@id";
+                    cmd.CommandText = "AddUserPhoto";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@imageID", newImageID);
                     cmd.Parameters.AddWithValue("@id", ID);
@@ -53,7 +54,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     var command = connection.CreateCommand();
-                    command.CommandText = "SELECT Image, ContentType FROM dbo.Image WHERE ID=@id";
+                    command.CommandText = "GetFullImage";
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@id", ID);
 
                     connection.Open();
@@ -138,7 +140,8 @@ namespace Epam.SCS.Dal.DBDao
                     var data = memStr.ToArray();
 
                     var command = connection.CreateCommand();
-                    command.CommandText = "INSERT INTO dbo.Image (Image, ContentType) VALUES (@image, @contentType); SELECT scope_identity()";
+                    command.CommandText = "SavePhoto";
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@image", data);
                     command.Parameters.AddWithValue("@contentType", photo.ContentType);
 

@@ -29,7 +29,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "SELECT Login FROM dbo.Account WHERE Login=@login";
+                    cmd.CommandText = "CanRegister";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@login", login);
                     connection.Open();
 
@@ -53,7 +54,8 @@ namespace Epam.SCS.Dal.DBDao
                 {
 
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "SELECT Login, Password FROM dbo.Account WHERE (Login=@login) AND  (Password=@password)";
+                    cmd.CommandText = "CheckUser";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@login", login);
                     cmd.Parameters.AddWithValue("@password", password);
                     connection.Open();
@@ -76,7 +78,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = " SELECT RoleName FROM dbo.Role WHERE ID IN (SELECT Role_ID FROM dbo.Account WHERE Login = @login)";
+                    cmd.CommandText = "GetAccountRole";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@login", login);
                     connection.Open();
 
@@ -104,7 +107,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "SELECT ID FROM dbo.[Account] WHERE ID=@id";
+                    cmd.CommandText = "ContainsAccount";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", id);
                     connection.Open();
 
@@ -127,7 +131,8 @@ namespace Epam.SCS.Dal.DBDao
                 {
                     var roles = new List<string>();
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "SELECT dbo.Role.RoleName FROM dbo.Role INNER JOIN dbo.Account ON dbo.Role.ID=dbo.Account.Role_ID";
+                    cmd.CommandText = "GetAllAccountsRoles";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                     connection.Open();
 
@@ -155,7 +160,8 @@ namespace Epam.SCS.Dal.DBDao
                 {
                     var accounts = new List<Account>();
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "SELECT dbo.Account.ID,dbo.Account.Login, dbo.Role.RoleName FROM dbo.Role INNER JOIN dbo.Account ON dbo.Role.ID=dbo.Account.Role_ID";
+                    cmd.CommandText = "GetAllAccounts";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();
@@ -183,7 +189,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "UPDATE dbo.[Account] SET Role_ID=@roleId WHERE ID=@id";
+                    cmd.CommandText = "ChangeRole";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
 
                     cmd.Parameters.AddWithValue("@id", id);
@@ -234,7 +241,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = " SELECT ID, Login, Role_ID FROM dbo.[Account] WHERE ID=@id";
+                    cmd.CommandText = "GetAccountByID";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", id);
                     connection.Open();
 

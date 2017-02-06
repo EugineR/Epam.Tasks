@@ -250,7 +250,8 @@ namespace Epam.SCS.Dal.DBDao
                 {
                     var roles = new List<string>();
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "SELECT dbo.Role.RoleName FROM dbo.Role INNER JOIN dbo.Account ON dbo.Role.ID=dbo.Account.Role_ID";
+                    cmd.CommandText = "GetAllAccountsRoles";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                     connection.Open();
 
@@ -276,7 +277,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = " SELECT RoleName FROM dbo.Role WHERE ID IN (SELECT Role_ID FROM dbo.Account WHERE Login = @login)";
+                    cmd.CommandText = "GetUserRole";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@login", login);
                     connection.Open();
 

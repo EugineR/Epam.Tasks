@@ -24,7 +24,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "INSERT INTO dbo.[Skill] (Title) VALUES (@title); SELECT scope_identity()";
+                    cmd.CommandText = "AddSkill";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@title", skill.Title);
                     connection.Open();
 
@@ -46,7 +47,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "SELECT ID FROM dbo.[Skill] WHERE ID=@id";
+                    cmd.CommandText = "ContainsSkill";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", id);
                     connection.Open();
 
@@ -70,7 +72,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "SELECT Title, ID FROM dbo.Skill";
+                    cmd.CommandText = "GetAllSkills";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();
@@ -116,7 +119,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = " SELECT ID, Title FROM dbo.[Skill] WHERE ID=@id";
+                    cmd.CommandText = "GetSkillByID";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", id);
                     connection.Open();
 
@@ -146,7 +150,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "DELETE FROM dbo.[Skill] WHERE ID=@id";
+                    cmd.CommandText = "RemoveSkill";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", id);
                     connection.Open();
 
@@ -169,8 +174,8 @@ namespace Epam.SCS.Dal.DBDao
                 using (var connection = new SqlConnection(connectionStr))
                 {
                     SqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "UPDATE dbo.[Skill] SET Title=@title WHERE ID=@id";
-
+                    cmd.CommandText = "UpdateSkill";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.Parameters.AddWithValue("@title", skill.Title);
 
