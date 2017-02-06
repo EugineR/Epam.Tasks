@@ -1,0 +1,42 @@
+﻿@using Epam.SCS.Entities;
+@using Epam.SCS.WebUI.Models;
+@{
+    if (!IsPost)
+    {
+        Response.SetStatus(HttpStatusCode.NotFound);
+        return;
+    }
+
+    var type = Request["type"];
+    var file = Request.Files["uploaded"];
+    byte[] data = new byte[file.ContentLength];
+    int len = file.InputStream.Read(data, 0, file.ContentLength);
+    var photo = new Photo(data, file.ContentType);
+    if (type == "user")
+    {
+        try
+        {
+            var id = int.Parse(Request["userId"]);
+
+            if (Common.PhotoBll.AddPhotoToUser(id, photo))
+            {
+                Response.Redirect("~/Users/ShowUsers");
+            }
+            else
+            {
+                Response.Redirect("~/?failed");
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+            <div class="alert alert-danger">
+                @ex.Message
+            </div>
+            
+            <a href = "~/Users/EditUserInfo.cshtml" class="btn btn-primary">Try again</a>
+            
+        }
+    }
+}

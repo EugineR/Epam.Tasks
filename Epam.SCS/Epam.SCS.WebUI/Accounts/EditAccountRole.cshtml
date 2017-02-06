@@ -1,0 +1,31 @@
+﻿@using Epam.SCS.WebUI.Models;
+@using Epam.SCS.Entities;
+@using System.Globalization;
+
+@{ 
+    if (!User.IsInRole("Admin"))
+    {
+        Response.SetStatus(HttpStatusCode.Forbidden);
+    }
+    if (IsPost)
+    {
+        var Id = int.Parse(Request["ID"]);
+        Account account = Common.AccountBll.GetByID(Id);
+        try
+        {
+            Common.AccountBll.ChangeRole(Id);
+            Response.Redirect("~/Accounts/ShowAccounts");
+        }
+        catch (Exception ex)
+        {
+                <form action="~/Accounts/EditAccountRole" method="post">
+                    <div class="alert alert-danger">
+                        @ex.Message
+                    </div>
+                    <a class="btn btn-primary" href="~/Accounts/ShowAccounts">Edit another account</a>
+                </form>
+                return;
+            }
+        }
+    }
+}

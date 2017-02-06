@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "";
+ }
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index page</title>
+    <link href="~/Content/include/styles.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    
+        <div class="container col-xs-offset-4 col-xs-4 main-div">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a class="btn btn-primary btn-lg btn-block" href="~/Auth/Login">Sign In</a>
+                <a class="btn btn-primary btn-lg btn-block" href="~/Auth/Registration">Registration</a>
+                <a class="btn btn-primary btn-lg btn-block" href="~/Users/ShowUsers">Visit as guest</a>
+            }
+            else
+            {
+                <a class="btn btn-primary btn-lg btn-block" href="~/MainPage">You are logined. To main page?</a>
+                <a class="btn btn-primary btn-lg btn-block" href="~/Auth/Logout">Logout</a>
+            }       
+    </div>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

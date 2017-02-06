@@ -1,0 +1,61 @@
+﻿@using Epam.SCS.WebUI.Models;
+@{
+    Page.Title = "All users";
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        @foreach (var user in Common.UserBll.GetAll())
+        {
+            <div class="col-xs-12 col-sm-6  col-lg-4 main-div">
+                <div class="col-xs-4 col-sm-4 col-lg-4">
+                    <img src="~/Photos/NormalPhoto?id=@user.Photo.Id" alt="noneimage" class="col-xs-3 col-sm-4 col-lg-6 custom-image" />
+                </div>
+                <div class="col-xs-3 col-sm-3 col-lg-3 users-div">
+                    <h5>@user.Name @user.Surname @user.Patronymic</h5>
+                    <h5>@user.Age years old</h5>
+                </div>
+                <div class="btn-group-vertical col-xs-5 col-sm-5 col-lg-5">
+                    <form action="~/Users/UsersSkills" method="post">
+                        <input type="hidden" name="ID" value="@user.Id" />
+                        <input type="hidden" name="Visited" value="false" />
+                        <button type="submit" class="btn btn-success btn-block">Show skills</button>
+                    </form>
+@if (User.IsInRole("Admin"))
+{
+                    <form action="~/Users/EditUserInfo" method="post">
+                        <input type="hidden" name="ID" value="@user.Id" />
+                        <input type="hidden" name="Visited" value="false" />
+                        <button type="submit" class="btn btn-primary btn-block">Edit user</button>
+                    </form>
+
+                    <button type="button" class="modalDeleteBtn btn btn-danger" data-toggle="modal" data-target="#@user.Id">Remove user</button>
+}
+                    <div class="modal fade" id="@user.Id" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Deleting </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to remove the user?</p>
+                                    <form action="~/Users/DeleteUser" class="form-horizontal" method="post">
+                                        <input type="hidden" name="ID" value="@user.Id" />
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+
+        }
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+        <a href="~/Service/GenerateReportAboutAllUsers" class="btn btn-warning layout-footer">Generate report</a>
+    </div>

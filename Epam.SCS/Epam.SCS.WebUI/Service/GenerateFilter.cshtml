@@ -1,0 +1,112 @@
+﻿@using Epam.SCS.WebUI.Models;
+@using Epam.SCS.Entities;
+@{
+
+    Page.Title = "Making filter";
+    if (!User.IsInRole("Admin"))
+    {
+        Response.SetStatus(HttpStatusCode.Forbidden);
+    }
+}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Skill</th>
+                    <th>Min value</th>
+                    <th>Max value</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var filter in Common.FilterBll.GetAll())
+                {
+                    <tr>
+                        <td>@Common.SkillBll.GetById(filter.Key).Title</td>
+                        <td>@filter.Value.MinValue</td>
+                        <td>@filter.Value.MaxValue</td>
+                        <td>
+                            <button type="button" class="modalDeleteBtn btn btn-danger" data-toggle="modal" data-target="#@filter.Key">Delete</button>
+                            <div class="modal fade" id="@filter.Key" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Deleting </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to remove filter`s element?</p>
+                                            <form action="~/Service/RemoveFilter" id="@filter.Key-deleteForm" class="deleteForm form-horizontal" method="post">
+                                                <input type="hidden" name="skillIDToRemove" value="@filter.Key" />
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="deleteBtn btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add skill to filter</button>
+
+        <a href="~/Service/ShowUsersByFilter" class="btn btn-success">Find with filter</a>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="float:left" id="exampleModalLabel">Adding skill</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="~/Service/AddFilter" method="post">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="recipient-name" class="form-control-label">Title:</label>
+                                <select class="form-control" id="selectSkillID">
+                                    @foreach (var skill in Common.SkillBll.GetAll())
+                                    {
+                                        <option value="@skill.Id">@skill.Title</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="form-control-label">Min value: </label>
+                                <select class="form-control" id="selectMinRate">
+                                    @for (int i = 1; i <= 10; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="form-control-label">Max value: </label>
+                                <select class="form-control" id="selectMaxRate">
+                                    @for (int i = 1; i <= 10; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" onclick="change()">Add skill</button>
+                        </div>
+                        <input type="hidden" name="skillID" id="hiddenSkillID" />
+                        <input type="hidden" name="minRate" id="hiddenMinRate" />
+                        <input type="hidden" name="maxRate" id="hiddenMaxRate" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/include/filters.js"></script>
+}

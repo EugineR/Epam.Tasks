@@ -1,0 +1,65 @@
+﻿@using Epam.SCS.WebUI.Models;
+@{
+    Page.Title = "Login page";
+    if (User.Identity.IsAuthenticated)
+    {
+        Response.Redirect("~");
+    }
+    
+}
+
+    @{bool failed = false; }
+
+    @if (IsPost)
+    {
+        var login = Request["login"];
+        var password = Request["password"];
+
+        if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
+        {
+            Response.SetStatus(HttpStatusCode.BadRequest);
+            return;
+        }
+
+        if (Common.AccountBll.CanLogin(login, password))
+        {
+            FormsAuthentication.SetAuthCookie(login, createPersistentCookie: false);            
+            Response.Redirect("~/MainPage");
+            return;
+        }
+        else
+        {
+            failed = true;
+        }
+    }
+    <div class="container">
+        <div class="col-xs-offset-4 col-xs-4">
+
+        @if (failed)
+        {
+            <div class="alert alert-danger" style="margin-top: 60px">
+                Password is not correct
+            </div>
+        }
+        <form class="form-group form-login" action="~/Auth/Login" method="post" role="form" id="loginForm" name="loginForm">
+            <div class="form-group">
+                <label class="control-label" for="login">Login</label>
+                <input type="text" autocomplete="off" class="form-control" id="login" name="login" placeholder="Enter login" />
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="password">Password</label>
+                <input type="password" autocomplete="off" class="form-control" id="password" name="password" placeholder="Enter password" />
+            </div>
+            <input type="hidden" name="ReturnUrl" value="@Request["ReturnUrl"]" />
+            <button type="submit" class="btn btn-success">Login</button>
+
+            <button onclick="goBack()" class="btn btn-primary">Go Back</button>
+        </form>
+        </div>
+    </div>
+@section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/additional-methods.min.js"></script>
+    <script src="~/Scripts/jsValidation/login.js"></script>
+}
+    

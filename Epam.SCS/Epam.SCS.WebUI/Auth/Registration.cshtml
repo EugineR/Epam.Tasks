@@ -1,0 +1,138 @@
+﻿@using Epam.SCS.WebUI.Models;
+@using Epam.SCS.Entities;
+@using System.Globalization;
+@{
+    Page.Title = "Registration page";
+    if (User.Identity.IsAuthenticated)
+    {
+        Response.Redirect("~");
+    }    
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    @{
+        bool loginError = false;
+        bool passwordConfimError = false;
+    }
+    @if (IsPost)
+    {
+        var login = Request["login"];
+        var password = Request["password"];
+        var confirmPassword = Request["confirmPassword"];
+        var name = Request["name"];
+        var surname = Request["surname"];
+        var patronymic = Request["patronymic"];
+        var dateOfBirth = Request["date"];
+
+        <!-- if (string.IsNullOrWhiteSpace(login) ||
+            string.IsNullOrWhiteSpace(password) ||
+            string.IsNullOrWhiteSpace(confirmPassword) ||
+            String.IsNullOrWhiteSpace(name) ||
+            String.IsNullOrWhiteSpace(surname))
+        {
+            Response.SetStatus(HttpStatusCode.BadRequest);
+            return;
+        }
+
+        if (!password.Equals(confirmPassword))
+        {
+            passwordConfimError = true;
+        }
+        else-->
+        if (!Common.AccountBll.CanRegister(login))
+        {
+           loginError = true;
+        }       
+        try
+        {
+            var acc = new Account(login, password);
+            DateTime tempDate;
+            if (DateTime.TryParseExact(dateOfBirth, Common.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out tempDate))
+            {
+                Common.UserBll.Add(new User
+                {
+                    Acc = acc,
+                    Name = name,
+                    Surname = surname,
+                    Patronymic = patronymic,
+                    DateOfBirth = tempDate
+                });
+                var returnUrl = Request["ReturnUrl"];
+                if (string.IsNullOrWhiteSpace(returnUrl))
+                {
+                    returnUrl = "~";
+                }
+                Response.Redirect(returnUrl);
+                return;
+            }
+            else
+            {
+                throw new ArgumentException("Date incorrect");
+            }
+        }
+        catch (Exception ex)
+        {
+            <div class="alert alert-danger">
+                @ex.Message
+            </div>
+        }       
+    }
+    <div class="container col-xs-offset-4 col-xs-4">
+        @if (loginError)
+        {
+            <div class="alert alert-danger" style="margin-top: 60px">
+                Login is already used
+            </div>
+        }
+        else if (passwordConfimError)
+        {
+            <div class="alert alert-danger" style="margin-top: 60px">
+                Passwords do not match
+            </div>
+        }
+        <form class="form-group form-login" action="~/Auth/Registration" method="post" role="form" id="registerForm" name="registerForm">
+            <div class="form-group">
+                <label class="control-label" for="login">Login</label>
+                <input type="text" autocomplete="off" class="form-control" id="login" name="login" placeholder="Enter login" />
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="password">Password</label>
+                <input type="password" autocomplete="off" class="form-control" id="password" name="password" placeholder="Enter password" />
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="confirmPassword">Confirm password</label>
+                <input type="password" autocomplete="off" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Enter password again" />
+            </div>
+            <div class="form-group">
+                <label for="name">Name: </label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+            </div>
+            <div class="form-group">
+                <label for="surname">Surname: </label>
+                <input type="text" class="form-control" id="surname" name="surname" placeholder="Enter surname">
+            </div>
+            <div class="form-group">
+                <label for="patronymic">Patronymic: </label>
+                <input type="text" class="form-control" id="patronymic" name="patronymic" placeholder="Enter patronymic">
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="text" class="form-control" id="date" name="date" placeholder="dd/MM/yyyy">
+            </div>
+            <button type="submit" class="btn btn-success">Registration</button>
+            <button onclick="goBack()" class="btn btn-primary">Go Back</button>
+        </form>
+    </div>
+@section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/additional-methods.min.js"></script>
+    <script src="~/Scripts/jsValidation/registration.js"></script>
+    }
+</body>
+</html>
+

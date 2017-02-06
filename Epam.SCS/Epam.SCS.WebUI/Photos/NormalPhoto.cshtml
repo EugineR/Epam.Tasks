@@ -1,0 +1,13 @@
+﻿@using Epam.SCS.WebUI.Models;
+@{
+    if (IsPost)
+    {
+        Response.SetStatus(HttpStatusCode.NotFound);
+        return;
+    }
+
+    int id = int.Parse(Request["Id"]);
+    var photo = Common.PhotoBll.GetNormalPhoto(id);
+
+    Response.WriteBinary(photo.Data, photo.ContentType);
+}

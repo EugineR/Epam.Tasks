@@ -1,0 +1,13 @@
+﻿@using Epam.SCS.WebUI.Models;
+@using Epam.SCS.Entities;
+@{ 
+    if (IsPost)
+    {
+        int skillID = int.Parse(Request["skillID"]);
+        int userID = int.Parse(Request["userID"]);
+       
+        Common.UserBll.RemoveUsersSkill(userID, skillID);
+        Response.Redirect("~/Skills/ManageUsersSkills");
+    }
+
+}

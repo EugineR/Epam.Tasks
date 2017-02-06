@@ -399,5 +399,36 @@ namespace Epam.SCS.Dal.DBDao
                 throw e;
             }
         }
+
+        public int GetIDByAccID(int ID)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(connectionStr))
+                {
+                    SqlCommand cmd = connection.CreateCommand();
+                    cmd.CommandText = "GetIDByAccID";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", ID);
+                    connection.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    int id = 0;
+                    while (reader.Read())
+                    {
+                        id = (int)reader["ID"];
+
+                    }
+                    return id;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.For(this).Error(e);
+                throw e;
+            }
+        }
+
     }
 }

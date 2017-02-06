@@ -1,0 +1,163 @@
+﻿@using Epam.SCS.WebUI.Models;
+@{
+    Page.Title = "All users";
+}
+
+@{
+
+}foreach (var user in Common.UserBll.GetAll())
+{
+    <div class="col-lg-3 col-sm-6 col-xs-12 table-bordered main-div">
+        <div class="">
+            <img src="~/Photos/NormalPhoto?id=@user.Photo.Id" alt="noneimage" class="img-rounded img-responsive col-xs-3 col-sm-4 col-lg-6 custom-image" />
+        </div>
+        <div class="users-div col-xs-9 col-sm-8 col-lg-6">
+            <h4>@user.Name @user.Surname @user.Patronymic</h4>
+            <h4>@user.Age years old</h4>
+            
+            <div class="btn-group-vertical">
+                <form action="~/Users/UsersSkills" method="post">
+                    <input type="hidden" name="ID" value="@user.Id" />
+                    <input type="hidden" name="Visited" value="false" />
+                    <button type="submit" class="btn btn-success btn-block">Show skills</button>
+                </form>
+
+                <form action="~/Users/EditUserInfo" method="post">
+                    <input type="hidden" name="ID" value="@user.Id" />
+                    <input type="hidden" name="Visited" value="false" />
+                    <button type="submit" class="btn btn-primary btn-block">Edit user</button>
+                </form>
+
+                <form action="~/Users/DeleteUser" method="post">
+                    <input type="hidden" name="ID" value="@user.Id" />
+                    <button type="submit" class="btn btn-danger btn-block">Remove user</button>
+                </form>
+
+            </div>
+    </div>
+
+}
+        }
+<div class="col-xs-12">
+    <a href="~/Service/GenerateReportAboutAllUsers" class="btn btn-warning layout-footer">Generate report</a>
+</div>
+
+
+/////////////////////////
+
+
+        @using Epam.SCS.WebUI.Models;
+        @{
+            if (!User.IsInRole("Admin"))
+            {
+                Response.SetStatus(HttpStatusCode.Forbidden);
+            }
+            Page.Title = "Checking skill";
+            bool failed = false;
+            if (IsPost)
+            {
+                var Id = Request["editId"];
+                int result;
+                if (int.TryParse(Id, out result))
+                {
+                    if (Common.SkillBll.Contains(result))
+                    {
+                        <form action="~/Skills/EditSkill" method="post">
+                            <input type="hidden" name="ID" value="@Id" />
+                            <input type="hidden" name="Visited" value="true" />
+                            <button type="submit" class="btn btn-success">Go to edit</button>
+                        </form>
+                        return;
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            Id not found
+                        </div>
+                    }
+                }
+                else
+                {
+                    failed = true;
+                }
+            }
+        }
+        @if (failed)
+        {
+            <div class="alert alert-danger">
+                Id is not correct
+            </div>
+        }
+        <form method="post" class="form-inline">
+            <div class="form-group">
+                <label for="editId">Check by ID</label>
+                <input type="text" class="form-control" id="editId" name="editId">
+            </div>
+            <button type="submit" class="btn btn-primary">Check</button>
+        </form>
+
+
+
+////////////////////////
+
+
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Photo</th>
+                            <th>Name</th>
+                            <th>DateOfBirth</th>
+                            <th>Age</th>
+                            @if (User.IsInRole("Admin"))
+                            {
+
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        @foreach (var user in Common.UserBll.GetAll())
+                        {
+                            <tr>
+                                <td>@user.Id</td>
+                                <td><img src="~/Photos/Photos?id=@user.Photo.Id" alt="noneimage" class="img-rounded img-responsive" /></td>
+                                <td>@user.Name @user.Surname @user.Patronymic</td>
+                                <td>@user.DateOfBirth.ToShortDateString()</td>
+                                <td>@user.Age</td>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <form action="~/Users/UsersSkills" method="post">
+                                                <input type="hidden" name="ID" value="@user.Id" />
+                                                <input type="hidden" name="Visited" value="false" />
+                                                <button type="submit" class="btn btn-success btn-block">Show skills</button>
+                                            </form>
+
+                                            <form action="~/Users/EditUserInfo" method="post">
+                                                <input type="hidden" name="ID" value="@user.Id" />
+                                                <input type="hidden" name="Visited" value="false" />
+                                                <button type="submit" class="btn btn-primary btn-block">Edit user</button>
+                                            </form>
+
+                                            <form action="~/Users/DeleteUser" method="post">
+                                                <input type="hidden" name="ID" value="@user.Id" />
+                                                <button type="submit" class="btn btn-danger btn-block">Remove user</button>
+                                            </form>
+
+                                        </div>
+                                    </td>
+
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <a href="~/Service/GenerateReportAboutAllUsers" class="btn btn-warning">Generate report</a>

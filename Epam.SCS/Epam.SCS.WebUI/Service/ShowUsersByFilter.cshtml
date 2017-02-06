@@ -1,0 +1,89 @@
+﻿@using Epam.SCS.WebUI.Models;
+@using Epam.SCS.Entities;
+@using System.Linq;
+@{
+    if (!User.IsInRole("Admin"))
+    {
+        Response.SetStatus(HttpStatusCode.Forbidden);
+    }
+    Page.Title = "Filtred users";
+}
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        @{
+            var users = Common.UserBll.GetAll();
+            UsersEqualityComparer userComparer = new UsersEqualityComparer();
+            SkillEqualityComprarer skillComparer = new SkillEqualityComprarer();
+            users.AsQueryable();
+            foreach (var skill in Common.FilterBll.GetAll())
+            {
+                var curSkill = Common.SkillBll.GetById(skill.Key);
+                var query = users.Where(x => x.UsersSkills.Keys.Contains(curSkill, skillComparer))
+                        .Where(x => x.UsersSkills[curSkill] > skill.Value.MinValue)
+                        .Where(x => x.UsersSkills[curSkill] < skill.Value.MaxValue);
+
+                users = users.Intersect(query, userComparer);
+
+            }
+        }
+        @if (users.Count() > 0)
+        {
+        foreach (var user in users)
+        {
+            
+
+
+            <div class="col-xs-12 col-sm-6  col-lg-4 main-div">
+                <div class="col-xs-4 col-sm-4 col-lg-4">
+                    <img src="~/Photos/NormalPhoto?id=@user.Photo.Id" alt="noneimage" class="col-xs-3 col-sm-4 col-lg-6 custom-image" />
+                </div>
+                <div class="col-xs-3 col-sm-3 col-lg-3 users-div">
+                    <h5>@user.Name @user.Surname @user.Patronymic</h5>
+                    <h5>@user.Age years old</h5>
+                </div>
+                <div class="btn-group-vertical col-xs-5 col-sm-5 col-lg-5">
+                    <form action="~/Users/UsersSkills" method="post">
+                        <input type="hidden" name="ID" value="@user.Id" />
+                        <input type="hidden" name="Visited" value="false" />
+                        <button type="submit" class="btn btn-success btn-block">Show skills</button>
+                    </form>
+
+                    <form action="~/Users/EditUserInfo" method="post">
+                        <input type="hidden" name="ID" value="@user.Id" />
+                        <input type="hidden" name="Visited" value="false" />
+                        <button type="submit" class="btn btn-primary btn-block">Edit user</button>
+                    </form>
+
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#@user.Id">Delete</button>
+                    <div class="modal fade" id="@user.Id" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Deleting </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to remove the user?</p>
+                                    <form action="~/Users/DeleteUser" class="form-horizontal" method="post">
+                                        <input type="hidden" name="ID" value="@user.Id" />
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-danger btn-block">Remove user</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>             
+                </div>
+            </div>
+            }
+        }
+            else
+            {
+                <h4>No user satisfies the request</h4>
+            }
+
+    </div>
+</div>
+
+<a href="~/Service/GenerateReportAboutFiltredUsers" class="btn btn-warning">Generate report</a>

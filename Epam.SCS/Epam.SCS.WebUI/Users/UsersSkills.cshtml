@@ -1,0 +1,38 @@
+﻿@using Epam.SCS.WebUI.Models;
+@using System.Collections.Generic;
+@using Epam.SCS.Entities;
+@{
+    Page.Title = "Users skills";    
+}
+@if (IsPost)
+{
+    var Id = int.Parse(Request["ID"]);
+    User user = Common.UserBll.GetByID(Id);
+    <div class="form-group">
+        <label>
+            User name - @user.Name @user.Surname @if (!string.IsNullOrEmpty(user.Patronymic))
+            { <text>@user.Patronymic</text> }; Date of birth - @user.DateOfBirth.ToShortDateString()
+        </label>
+    </div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Skill</th>
+                    <th>Rate</th>                  
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (KeyValuePair<Skill, int> kvp in user.UsersSkills)
+                    {
+                    <tr>                                             
+                        <td>@kvp.Key.Title</td>
+                        <td>@kvp.Value</td>
+                    </tr>
+                   }
+            </tbody>
+        </table>
+    </div>
+</div>
+}

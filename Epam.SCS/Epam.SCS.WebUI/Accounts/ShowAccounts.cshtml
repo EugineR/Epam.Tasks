@@ -1,0 +1,37 @@
+﻿@using Epam.SCS.WebUI.Models;
+@{    
+    Page.Title = "All accounts";
+}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Login</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var account in Common.AccountBll.GetAll())
+                {
+                    <tr>
+                        <td>@account.Id</td>
+                        <td>@account.Login</td>
+                        <td>@account.Role</td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td>
+                                <form action="~/Accounts/EditAccountRole" method="post">
+                                    <input type="hidden" name="ID" value="@account.Id" />
+                                    <button type="submit" class="btn btn-success">Change role</button>
+                                </form>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a href="~/Service/GenerateReportAboutAllAccounts" class="btn btn-warning">Generate report</a>
+    </div>
+</div>

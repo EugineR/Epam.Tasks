@@ -1,13 +1,13 @@
-E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.Dal.dll
-E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.Dal.pdb
-E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.DalContracts.dll
-E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.Entities.dll
-E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.LogicContracts.dll
-E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.DalContracts.pdb
-E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.Entities.pdb
-E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.LogicContracts.pdb
-E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\obj\Debug\Epam.SCS.Dal.csprojResolveAssemblyReference.cache
-E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\obj\Debug\Epam.SCS.Dal.dll
-E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\obj\Debug\Epam.SCS.Dal.pdb
-E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\log4net.dll
-E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\log4net.xml
+F:\Новая папка\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.Dal.dll
+F:\Новая папка\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.Dal.pdb
+F:\Новая папка\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.DalContracts.dll
+F:\Новая папка\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.Entities.dll
+F:\Новая папка\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.LogicContracts.dll
+F:\Новая папка\Epam.SCS\Epam.SCS.Dal\bin\Debug\log4net.dll
+F:\Новая папка\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.DalContracts.pdb
+F:\Новая папка\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.Entities.pdb
+F:\Новая папка\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.LogicContracts.pdb
+F:\Новая папка\Epam.SCS\Epam.SCS.Dal\bin\Debug\log4net.xml
+F:\Новая папка\Epam.SCS\Epam.SCS.Dal\obj\Debug\Epam.SCS.Dal.csprojResolveAssemblyReference.cache
+F:\Новая папка\Epam.SCS\Epam.SCS.Dal\obj\Debug\Epam.SCS.Dal.dll
+F:\Новая папка\Epam.SCS\Epam.SCS.Dal\obj\Debug\Epam.SCS.Dal.pdb

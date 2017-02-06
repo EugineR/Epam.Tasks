@@ -1,0 +1,29 @@
+﻿@using Epam.SCS.WebUI.Models;
+@using Epam.SCS.Entities;
+@{
+    if (!User.IsInRole("Admin"))
+    {
+        Response.SetStatus(HttpStatusCode.Forbidden);
+    }
+    if (IsPost)
+    {
+
+        int skillID = int.Parse(Request["skillID"]);
+        int minRate = int.Parse(Request["minRate"]);
+        int maxRate = int.Parse(Request["maxRate"]);
+
+        try
+        {
+            Common.FilterBll.AddToFilter(skillID, new RangeOfRate(minRate, maxRate));
+            Response.Redirect("~/Service/GenerateFilter");
+        }
+        catch (Exception ex)
+        {
+            <div class="alert alert-danger">
+                @ex.Message
+            </div>
+            <a href="~/Service/GenerateFilter" class="btn btn-primary">Try again</a>
+        }
+    }
+
+}

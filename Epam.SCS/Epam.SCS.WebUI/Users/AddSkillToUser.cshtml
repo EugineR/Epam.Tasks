@@ -1,0 +1,23 @@
+﻿@using Epam.SCS.WebUI.Models;
+@using Epam.SCS.Entities;
+@{
+    if (IsPost)
+    {
+        int skillID = int.Parse(Request["skillID"]);
+        int userID = int.Parse(Request["userID"]);
+        int rate = int.Parse(Request["rate"]);
+        try
+        {
+            Common.UserBll.AddSkillToUser(userID, skillID, rate);
+        Response.Redirect("~/Skills/ManageUsersSkills");
+        }
+        catch (Exception ex)
+        {
+            <div class="alert alert-danger">
+                @ex.Message
+            </div>
+            <a href="~/Skills/ManageUsersSkills" class="btn btn-primary">Try again</a>
+        }
+    }
+
+}

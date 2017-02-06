@@ -1,0 +1,61 @@
+﻿@using Epam.SCS.WebUI.Models;
+@{
+   Page.Title = "All skills";
+}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>                   
+                    <th>Title</th>
+                    @if (User.IsInRole("Admin"))
+                    {
+                    <th></th>
+                    <th></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var skill in Common.SkillBll.GetAll())
+                {
+                    <tr>
+                        <td>@skill.Id</td>                       
+                        <td>@skill.Title</td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td>
+                                <form action="~/Skills/EditSkill" method="post">
+                                    <input type="hidden" name="ID" value="@skill.Id" />
+                                    <input type="hidden" name="Visited" value="false" />
+                                    <button type="submit" class="btn btn-primary">Edit skill</button>
+                                </form>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#@skill.Id">Delete</button>
+                                <div class="modal fade" id="@skill.Id" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Deleting </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to remove the skill?</p>
+                                                <form action="~/Skills/DeleteSkill" class="form-horizontal" method="post">
+                                                    <input type="hidden" name="ID" value="@skill.Id" />
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

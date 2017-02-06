@@ -1,0 +1,57 @@
+﻿@using iTextSharp.text;
+@using iTextSharp.text.pdf;
+@using System.Text;
+@using System.IO;
+@using Epam.SCS.WebUI.Models;
+@using Epam.SCS.Entities;
+@using System.Linq;
+
+@{
+    var doc = new Document();
+    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PDFs");
+    PdfWriter.GetInstance(doc, new FileStream(Path.Combine(path, "Order_about_all_Accounts_users.pdf"), FileMode.Create));
+    PdfPTable table = new PdfPTable(4);
+
+
+    string ttf = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "ARIAL.TTF");
+    var baseFont = BaseFont.CreateFont(ttf, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+    var font = new Font(baseFont, iTextSharp.text.Font.DEFAULTSIZE, iTextSharp.text.Font.NORMAL);
+
+    table.TotalWidth = 510f;
+    //fix the absolute width of the table
+    table.LockedWidth = true;
+
+    //relative col widths in proportions - 1/3 and 2/3
+    float[] widths = new float[] { 4f, 1f, 2f, 2f };
+    table.SetWidths(widths);
+    table.HorizontalAlignment = 0;
+    //leave a gap before and after the table
+    table.SpacingBefore = 20f;
+    table.SpacingAfter = 30f;
+
+    PdfPCell cell = new PdfPCell(new Phrase(new Chunk("Information about all accounts knowledge of accounting systems.", font)));
+    cell.Colspan = 4;
+    cell.Border = 0;
+    cell.HorizontalAlignment = 1;
+    table.AddCell(cell);
+
+
+    table.AddCell("Name");
+    table.AddCell("Age");
+    table.AddCell("Login");
+    table.AddCell("Role");
+
+
+    foreach (var user in Common.UserBll.GetAll())
+    {
+        table.AddCell(new Phrase(new Chunk($"{user.Name}  {user.Surname}  {user.Patronymic}", font)));
+        table.AddCell(user.Age.ToString());
+        table.AddCell(new Phrase(new Chunk($"{user.Acc.Login}", font)));
+        table.AddCell(new Phrase(new Chunk($"{user.Acc.Role}", font)));
+    }
+    doc.Open();
+    doc.Add(table);
+    doc.Close();
+    Response.Redirect("~/MainPage");
+}
+

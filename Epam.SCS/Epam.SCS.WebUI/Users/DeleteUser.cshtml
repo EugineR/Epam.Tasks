@@ -1,0 +1,28 @@
+﻿@using Epam.SCS.WebUI.Models;
+@using Epam.SCS.Entities;
+@{
+    if (!User.IsInRole("Admin"))
+    {
+        Response.SetStatus(HttpStatusCode.Forbidden);
+    }
+
+    if (IsPost)
+    {
+        var Id = int.Parse(Request["ID"]);
+        try
+        {
+            Common.UserBll.RemoveUser(Id);
+            Response.Redirect("~/Users/ShowUsers");
+        }
+        catch (Exception ex)
+        {
+            <div class="alert alert-danger">
+                @ex.Message
+            </div>
+            <a href="~/Users/ShowUsers" class="btn btn-primary">Go back</a>
+        }
+    }
+
+
+}
+

@@ -1,0 +1,15 @@
+﻿@using Epam.SCS.WebUI.Models;
+@using Epam.SCS.Entities;
+@{
+    if (!User.IsInRole("Admin"))
+    {
+        Response.SetStatus(HttpStatusCode.Forbidden);
+    }
+
+    if (IsPost)
+    {
+        var Id = int.Parse(Request["ID"]);
+        Common.SkillBll.Delete(Id);
+        Response.Redirect("~/Skills/ShowSkills");
+    }
+}

@@ -1,0 +1,55 @@
+﻿@using Epam.SCS.WebUI.Models;
+@using Epam.SCS.Entities;
+@{
+    if (!User.IsInRole("Admin"))
+    {
+        Response.SetStatus(HttpStatusCode.Forbidden);
+    }
+    Page.Title = "Editing skill";
+
+    if (IsPost)
+    {
+        var Id = int.Parse(Request["ID"]);
+        Skill skill = Common.SkillBll.GetById(Id);
+        <div class="form-group">
+            <label> Skill name - @skill.Title;</label>
+        </div>
+
+        var title = Request["title"];
+
+        if (Request["Visited"] == "true")
+        {
+            try
+            {
+                if (String.IsNullOrWhiteSpace(title))
+                {
+                    throw new ArgumentException("Title can't be null or white space");
+                }
+
+
+                Common.SkillBll.Update(Id, new Skill { Id = Id, Title = title });
+                Response.Redirect("~/Skills/ShowSkills");
+            }
+            catch (Exception ex)
+            {
+                <div class="alert alert-danger">
+                    @ex.Message
+                </div>
+                }
+            }
+        }
+    }
+
+<form method="post" class="form-inline" id="editForm" name="editForm">
+    <div class="form-group">
+        <label for="title">Title: </label>
+        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+    </div>
+    <button type="submit" class="btn btn-primary"> Edit skill</button>
+    <input type="hidden" name="ID" value="@Request["ID"]" />
+    <input type="hidden" name="Visited" value="true" />
+</form>
+
+@section scripts{
+<script src="~/Scripts/jsValidation/editSkill.js"></script>
+}
