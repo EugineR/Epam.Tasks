@@ -1,0 +1,13 @@
+E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.Dal.dll
+E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.Dal.pdb
+E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.DalContracts.dll
+E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.Entities.dll
+E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.LogicContracts.dll
+E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.DalContracts.pdb
+E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.Entities.pdb
+E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\Epam.SCS.LogicContracts.pdb
+E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\obj\Debug\Epam.SCS.Dal.csprojResolveAssemblyReference.cache
+E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\obj\Debug\Epam.SCS.Dal.dll
+E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\obj\Debug\Epam.SCS.Dal.pdb
+E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\log4net.dll
+E:\Tasks for EPAM\Epam.SCS\Epam.SCS.Dal\bin\Debug\log4net.xml
